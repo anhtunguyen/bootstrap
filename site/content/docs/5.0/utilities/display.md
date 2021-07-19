@@ -25,6 +25,7 @@ Where *value* is one of:
 - `inline`
 - `inline-block`
 - `block`
+- `grid`
 - `table`
 - `table-cell`
 - `table-row`
@@ -33,7 +34,7 @@ Where *value* is one of:
 
 The display values can be altered by changing the `$displays` variable and recompiling the SCSS.
 
-The media queries affect screen widths with the given breakpoint *or larger*. For example, `.d-lg-none` sets `display: none;` on both `lg`, `xl`, and `xxl` screens.
+The media queries affect screen widths with the given breakpoint *or larger*. For example, `.d-lg-none` sets `display: none;` on `lg`, `xl`, and `xxl` screens.
 
 ## Examples
 
@@ -85,7 +86,7 @@ To show an element only on a given interval of screen sizes you can combine one 
     </tr>
     <tr>
       <td>Hidden only on xl</td>
-      <td><code>.d-xl-none</code></td>
+      <td><code>.d-xl-none .d-xxl-block</code></td>
     </tr>
     <tr>
       <td>Hidden only on xxl</td>
@@ -135,6 +136,7 @@ Change the `display` value of elements when printing with our print display util
 - `.d-print-inline`
 - `.d-print-inline-block`
 - `.d-print-block`
+- `.d-print-grid`
 - `.d-print-table`
 - `.d-print-table-row`
 - `.d-print-table-cell`
@@ -148,3 +150,11 @@ The print and display classes can be combined.
 <div class="d-none d-print-block">Print Only (Hide on screen only)</div>
 <div class="d-none d-lg-block d-print-block">Hide up to large on screen, but always show on print</div>
 {{< /example >}}
+
+## Sass
+
+### Utilities API
+
+Display utilities are declared in our utilities API in `scss/_utilities.scss`. [Learn how to use the utilities API.]({{< docsref "/utilities/api#using-the-api" >}})
+
+{{< scss-docs name="utils-display" file="scss/_utilities.scss" >}}

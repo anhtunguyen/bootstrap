@@ -12,12 +12,12 @@ sections:
     description: Improve browser default select elements with a custom initial appearance.
   - title: Checks & radios
     description: Use our custom radio buttons and checkboxes in forms for selecting input options.
-  - title: File
-    description: Replace browser default file inputs with our custom version with optional JavaScript.
   - title: Range
     description: Replace browser default range inputs with our custom version.
   - title: Input group
     description: Attach labels and buttons to your inputs for increased semantic value.
+  - title: Floating labels
+    description: Create beautifully simple form labels that float over your input fields.
   - title: Layout
     description: Create inline, horizontal, or complex grid-based layouts with your forms.
   - title: Validation
@@ -93,9 +93,9 @@ Inline text can use any typical inline HTML element (be it a `<span>`, `<small>`
 
 Add the `disabled` boolean attribute on an input to prevent user interactions and make it appear lighter.
 
-{{< highlight html >}}
+```html
 <input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled>
-{{< /highlight >}}
+```
 
 Add the `disabled` attribute to a `<fieldset>` to disable all the controls within. Browsers treat all native form controls (`<input>`, `<select>`, and `<button>` elements) inside a `<fieldset disabled>` as disabled, preventing both keyboard and mouse interactions on them.
 
@@ -103,7 +103,8 @@ However, if your form also includes custom button-like elements such as `<a clas
 
 {{< example >}}
 <form>
-  <fieldset disabled aria-label="Disabled fieldset example">
+  <fieldset disabled>
+    <legend>Disabled fieldset example</legend>
     <div class="mb-3">
       <label for="disabledTextInput" class="form-label">Disabled input</label>
       <input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">
@@ -141,3 +142,13 @@ For situations where it's not possible to include a visible `<label>` or appropr
 If none of these are present, assistive technologies may resort to using the `placeholder` attribute as a fallback for the accessible name on `<input>` and `<textarea>` elements. The examples in this section provide a few suggested, case-specific approaches.
 
 While using visually hidden content (`.visually-hidden`, `aria-label`, and even `placeholder` content, which disappears once a form field has content) will benefit assistive technology users, a lack of visible label text may still be problematic for certain users. Some form of visible label is generally the best approach, both for accessibility and usability.
+
+## Sass
+
+Many form variables are set at a general level to be re-used and extended by individual form components. You'll see these most often as `$btn-input-*` and `$input-*` variables.
+
+### Variables
+
+`$btn-input-*` variables are shared global variables between our [buttons]({{< docsref "/components/buttons" >}}) and our form components. You'll find these frequently reassigned as values to other component-specific variables.
+
+{{< scss-docs name="input-btn-variables" file="scss/_variables.scss" >}}

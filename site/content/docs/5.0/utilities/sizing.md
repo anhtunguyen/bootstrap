@@ -44,9 +44,17 @@ You can also use `max-width: 100%;` and `max-height: 100%;` utilities as needed.
 
 You can also use utilities to set the width and height relative to the viewport.
 
-{{< highlight html >}}
+```html
 <div class="min-vw-100">Min-width 100vw</div>
 <div class="min-vh-100">Min-height 100vh</div>
 <div class="vw-100">Width 100vw</div>
 <div class="vh-100">Height 100vh</div>
-{{< /highlight >}}
+```
+
+## Sass
+
+### Utilities API
+
+Sizing utilities are declared in our utilities API in `scss/_utilities.scss`. [Learn how to use the utilities API.]({{< docsref "/utilities/api#using-the-api" >}})
+
+{{< scss-docs name="utils-sizing" file="scss/_utilities.scss" >}}

@@ -22,7 +22,7 @@ Here's how form validation works with Bootstrap:
 - To reset the appearance of the form (for instance, in the case of dynamic form submissions using AJAX), remove the `.was-validated` class from the `<form>` again after submission.
 - As a fallback, `.is-invalid` and `.is-valid` classes may be used instead of the pseudo-classes for [server-side validation](#server-side). They do not require a `.was-validated` parent class.
 - Due to constraints in how CSS works, we cannot (at present) apply styles to a `<label>` that comes before a form control in the DOM without the help of custom JavaScript.
-- All modern browsers support the [constraint validation API](https://www.w3.org/TR/html5/sec-forms.html#the-constraint-validation-api), a series of JavaScript methods for validating form controls.
+- All modern browsers support the [constraint validation API](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#the-constraint-validation-api), a series of JavaScript methods for validating form controls.
 - Feedback messages may utilize the [browser defaults](#browser-defaults) (different for each browser, and unstylable via CSS) or our custom feedback styles with additional HTML and CSS.
 - You may provide custom validity messages with `setCustomValidity` in JavaScript.
 
@@ -52,7 +52,7 @@ Custom feedback styles apply custom colors, borders, focus styles, and backgroun
   </div>
   <div class="col-md-4">
     <label for="validationCustomUsername" class="form-label">Username</label>
-    <div class="input-group">
+    <div class="input-group has-validation">
       <span class="input-group-text" id="inputGroupPrepend">@</span>
       <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
       <div class="invalid-feedback">
@@ -165,6 +165,8 @@ We recommend using client-side validation, but in case you require server-side v
 
 For invalid fields, ensure that the invalid feedback/error message is associated with the relevant form field using `aria-describedby` (noting that this attribute allows more than one `id` to be referenced, in case the field already points to additional form text).
 
+To fix [issues with border radii](https://github.com/twbs/bootstrap/issues/25110), input groups require an additional `.has-validation` class.
+
 {{< example >}}
 <form class="row g-3">
   <div class="col-md-4">
@@ -183,7 +185,7 @@ For invalid fields, ensure that the invalid feedback/error message is associated
   </div>
   <div class="col-md-4">
     <label for="validationServerUsername" class="form-label">Username</label>
-    <div class="input-group">
+    <div class="input-group has-validation">
       <span class="input-group-text" id="inputGroupPrepend3">@</span>
       <input type="text" class="form-control is-invalid" id="validationServerUsername" aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback" required>
       <div id="validationServerUsernameFeedback" class="invalid-feedback">
@@ -239,7 +241,6 @@ Validation styles are available for the following form controls and components:
 - `<input>`s and `<textarea>`s with `.form-control` (including up to one `.form-control` in input groups)
 - `<select>`s with `.form-select`
 - `.form-check`s
-- `.form-file`
 
 {{< example >}}
 <form class="was-validated">
@@ -277,12 +278,8 @@ Validation styles are available for the following form controls and components:
     <div class="invalid-feedback">Example invalid select feedback</div>
   </div>
 
-  <div class="form-file mb-3">
-    <input type="file" class="form-file-input" id="validationFormFile" required>
-    <label class="form-file-label" for="validationFormFile">
-      <span class="form-file-text">Choose file...</span>
-      <span class="form-file-button">Browse</span>
-    </label>
+  <div class="mb-3">
+    <input type="file" class="form-control" aria-label="file example" required>
     <div class="invalid-feedback">Example invalid form file feedback</div>
   </div>
 
@@ -314,7 +311,7 @@ If your form layout allows it, you can swap the `.{valid|invalid}-feedback` clas
   </div>
   <div class="col-md-4 position-relative">
     <label for="validationTooltipUsername" class="form-label">Username</label>
-    <div class="input-group">
+    <div class="input-group has-validation">
       <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
       <input type="text" class="form-control" id="validationTooltipUsername" aria-describedby="validationTooltipUsernamePrepend" required>
       <div class="invalid-tooltip">
@@ -352,16 +349,34 @@ If your form layout allows it, you can swap the `.{valid|invalid}-feedback` clas
 </form>
 {{< /example >}}
 
-## Customizing
+## Sass
 
-Validation states can be customized via Sass with the `$form-validation-states` map. Located in our `_variables.scss` file, this Sass map is looped over to generate the default `valid`/`invalid` validation states. Included is a nested map for customizing each state's color and icon. While no other states are supported by browsers, those using custom styles can easily add more complex form feedback.
+### Variables
 
-Please note that we do not recommend customizing these values without also modifying the `form-validation-state` mixin.
+{{< scss-docs name="form-feedback-variables" file="scss/_variables.scss" >}}
 
-This is the Sass map from `_variables.scss`. Override this and recompile your Sass to generate different states:
+### Mixins
+
+Two mixins are combined together, through our [loop](#loop), to generate our form validation feedback styles.
+
+{{< scss-docs name="form-validation-mixins" file="scss/mixins/_forms.scss" >}}
+
+### Map
+
+This is the validation Sass map from `_variables.scss`. Override or extend this to generate different or additional states.
 
 {{< scss-docs name="form-validation-states" file="scss/_variables.scss" >}}
 
-This is the loop from `forms/_validation.scss.scss`. Any modifications to the above Sass map will be reflected in your compiled CSS via this loop:
+Maps of `$form-validation-states` can contain three optional parameters to override tooltips and focus styles.
+
+### Loop
+
+Used to iterate over `$form-validation-states` map values to generate our validation styles. Any modifications to the above Sass map will be reflected in your compiled CSS via this loop.
 
 {{< scss-docs name="form-validation-states-loop" file="scss/forms/_validation.scss" >}}
+
+### Customizing
+
+Validation states can be customized via Sass with the `$form-validation-states` map. Located in our `_variables.scss` file, this Sass map is how we generate the default `valid`/`invalid` validation states. Included is a nested map for customizing each state's color, icon, tooltip color, and focus shadow. While no other states are supported by browsers, those using custom styles can easily add more complex form feedback.
+
+Please note that **we do not recommend customizing `$form-validation-states` values without also modifying the `form-validation-state` mixin**.

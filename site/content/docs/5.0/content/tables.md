@@ -134,7 +134,7 @@ Highlight a table row or cell by adding a `.table-active` class.
   </table>
 </div>
 
-{{< highlight html >}}
+```html
 <table class="table">
   <thead>
     ...
@@ -153,7 +153,7 @@ Highlight a table row or cell by adding a `.table-active` class.
     </tr>
   </tbody>
 </table>
-{{< /highlight >}}
+```
 
 <div class="bd-example">
   <table class="table table-dark">
@@ -187,7 +187,7 @@ Highlight a table row or cell by adding a `.table-active` class.
   </table>
 </div>
 
-{{< highlight html >}}
+```html
 <table class="table table-dark">
   <thead>
     ...
@@ -206,14 +206,14 @@ Highlight a table row or cell by adding a `.table-active` class.
     </tr>
   </tbody>
 </table>
-{{< /highlight >}}
+```
 
 ## How do the variants and accented tables work?
 
 For the accented tables ([striped rows](#striped-rows), [hoverable rows](#hoverable-rows), and [active tables](#active-tables)), we used some techniques to make these effects work for all our [table variants](#variants):
 
 - We start by setting the background of a table cell with the `--bs-table-bg` custom property. All table variants then set that custom property to colorize the table cells. This way, we don't get into trouble if semi-transparent colors are used as table backgrounds.
-- Then we add a gradient on the table cells with `background-image: linear-gradient(var(--bs-table-accent-bg), var(--bs-table-accent-bg));` to layer on top of any specified `background-color`. Since `--bs-table-accent-bg` is transparent by default, we have an invisible transparent linear gradient by default.
+- Then we add an inset box shadow on the table cells with `box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);` to layer on top of any specified `background-color`. Because we use a huge spread and no blur, the color will be monotone. Since `--bs-table-accent-bg` is unset by default, we don't have a default box shadow.
 - When either `.table-striped`, `.table-hover` or `.table-active` classes are added, the `--bs-table-accent-bg` is set to a semitransparent color to colorize the background.
 - For each table variant, we generate a `--bs-table-accent-bg` color with the highest contrast depending on that color. For example, the accent color for `.table-primary` is darker while `.table-dark` has a lighter accent color.
 - Text and border colors are generated the same way, and their colors are inherited by default.
@@ -270,52 +270,50 @@ Table cells of `<thead>` are always vertical aligned to the bottom. Table cells 
           <td>This cell inherits <code>vertical-align: middle;</code> from the table</td>
           <td>This cell inherits <code>vertical-align: middle;</code> from the table</td>
           <td>This cell inherits <code>vertical-align: middle;</code> from the table</td>
-          <td>Nulla vitae elit libero, a pharetra augue. Cras mattis consectetur purus sit amet fermentum. Vestibulum id ligula porta felis euismod semper.</td>
+          <td>This here is some placeholder text, intended to take up quite a bit of vertical space, to demonstrate how the vertical alignment works in the preceding cells.</td>
         </tr>
         <tr class="align-bottom">
           <td>This cell inherits <code>vertical-align: bottom;</code> from the table row</td>
           <td>This cell inherits <code>vertical-align: bottom;</code> from the table row</td>
           <td>This cell inherits <code>vertical-align: bottom;</code> from the table row</td>
-          <td>Nulla vitae elit libero, a pharetra augue. Cras mattis consectetur purus sit amet fermentum. Vestibulum id ligula porta felis euismod semper.</td>
+          <td>This here is some placeholder text, intended to take up quite a bit of vertical space, to demonstrate how the vertical alignment works in the preceding cells.</td>
         </tr>
         <tr>
           <td>This cell inherits <code>vertical-align: middle;</code> from the table</td>
           <td>This cell inherits <code>vertical-align: middle;</code> from the table</td>
           <td class="align-top">This cell is aligned to the top.</td>
-          <td>Nulla vitae elit libero, a pharetra augue. Cras mattis consectetur purus sit amet fermentum. Vestibulum id ligula porta felis euismod semper.</td>
+          <td>This here is some placeholder text, intended to take up quite a bit of vertical space, to demonstrate how the vertical alignment works in the preceding cells.</td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
 
-{{< highlight html >}}
-<table class="table table-sm table-dark">
-  <div class="table-responsive">
-    <table class="table align-middle">
-      <thead>
-        <tr>
-          ...
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          ...
-        </tr>
-        <tr class="align-bottom">
-          ...
-        </tr>
-        <tr>
-          <td>...</td>
-          <td>...</td>
-          <td class="align-top">This cell is aligned to the top.</td>
-          <td>...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</table>
-{{< /highlight >}}
+```html
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        ...
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        ...
+      </tr>
+      <tr class="align-bottom">
+        ...
+      </tr>
+      <tr>
+        <td>...</td>
+        <td>...</td>
+        <td class="align-top">This cell is aligned to the top.</td>
+        <td>...</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
 
 ## Nesting
 
@@ -378,7 +376,7 @@ Border styles, active styles, and table variants are not inherited by nested tab
 </table>
 </div>
 
-{{< highlight html >}}
+```html
 <table class="table table-striped">
   <thead>
     ...
@@ -395,7 +393,7 @@ Border styles, active styles, and table variants are not inherited by nested tab
     ...
   </tbody>
 </table>
-{{< /highlight >}}
+```
 
 ## How nesting works
 
@@ -442,7 +440,7 @@ Similar to tables and dark tables, use the modifier classes `.table-light` or `.
 </table>
 </div>
 
-{{< highlight html >}}
+```html
 <table class="table">
   <thead class="table-light">
     ...
@@ -451,7 +449,7 @@ Similar to tables and dark tables, use the modifier classes `.table-light` or `.
     ...
   </tbody>
 </table>
-{{< /highlight >}}
+```
 
 <div class="bd-example">
 <table class="table">
@@ -486,7 +484,7 @@ Similar to tables and dark tables, use the modifier classes `.table-light` or `.
 </table>
 </div>
 
-{{< highlight html >}}
+```html
 <table class="table">
   <thead class="table-dark">
     ...
@@ -495,8 +493,7 @@ Similar to tables and dark tables, use the modifier classes `.table-light` or `.
     ...
   </tbody>
 </table>
-{{< /highlight >}}
-
+```
 
 ### Table foot
 
@@ -541,7 +538,7 @@ Similar to tables and dark tables, use the modifier classes `.table-light` or `.
 </table>
 </div>
 
-{{< highlight html >}}
+```html
 <table class="table">
   <thead>
     ...
@@ -553,7 +550,7 @@ Similar to tables and dark tables, use the modifier classes `.table-light` or `.
     ...
   </tfoot>
 </table>
-{{< /highlight >}}
+```
 
 ### Captions
 
@@ -566,7 +563,7 @@ A `<caption>` functions like a heading for a table. It helps users with screen r
   </table>
 </div>
 
-{{< highlight html >}}
+```html
 <table class="table table-sm">
   <caption>List of users</caption>
   <thead>
@@ -576,7 +573,7 @@ A `<caption>` functions like a heading for a table. It helps users with screen r
     ...
   </tbody>
 </table>
-{{< /highlight >}}
+```
 
 You can also put the `<caption>` on the top of the table with `.caption-top`.
 
@@ -687,13 +684,13 @@ Across every breakpoint, use `.table-responsive` for horizontally scrolling tabl
   </div>
 </div>
 
-{{< highlight html >}}
+```html
 <div class="table-responsive">
   <table class="table">
     ...
   </table>
 </div>
-{{< /highlight >}}
+```
 
 ### Breakpoint specific
 
@@ -776,9 +773,17 @@ Use `.table-responsive{-sm|-md|-lg|-xl|-xxl}` as needed to create responsive tab
 {{< /tables.inline >}}
 {{< /highlight >}}
 
-## Customizing in Sass
+## Sass
+
+### Variables
+
+{{< scss-docs name="table-variables" file="scss/_variables.scss" >}}
+
+### Loop
+
+{{< scss-docs name="table-loop" file="scss/_variables.scss" >}}
+
+### Customizing
 
 - The factor variables (`$table-striped-bg-factor`, `$table-active-bg-factor` & `$table-hover-bg-factor`) are used to determine the contrast in table variants.
 - Apart from the light & dark table variants, theme colors are lightened by the `$table-bg-level` variable.
-
-{{< scss-docs name="table-variables" file="scss/_variables.scss" >}}

@@ -17,14 +17,14 @@ Bootstrap's grid system uses a series of containers, rows, and columns to layout
 {{< example class="bd-example-row" >}}
 <div class="container">
   <div class="row">
-    <div class="col-sm">
-      One of three columns
+    <div class="col">
+      Column
     </div>
-    <div class="col-sm">
-      One of three columns
+    <div class="col">
+      Column
     </div>
-    <div class="col-sm">
-      One of three columns
+    <div class="col">
+      Column
     </div>
   </div>
 </div>
@@ -69,33 +69,33 @@ As noted above, each of these breakpoints have their own container, unique class
       <th scope="col"></th>
       <th scope="col">
         xs<br>
-        <span class="font-weight-normal">&lt;576px</span>
+        <span class="fw-normal">&lt;576px</span>
       </th>
       <th scope="col">
         sm<br>
-        <span class="font-weight-normal">&ge;576px</span>
+        <span class="fw-normal">&ge;576px</span>
       </th>
       <th scope="col">
         md<br>
-        <span class="font-weight-normal">&ge;768px</span>
+        <span class="fw-normal">&ge;768px</span>
       </th>
       <th scope="col">
         lg<br>
-        <span class="font-weight-normal">&ge;992px</span>
+        <span class="fw-normal">&ge;992px</span>
       </th>
       <th scope="col">
         xl<br>
-        <span class="font-weight-normal">&ge;1200px</span>
+        <span class="fw-normal">&ge;1200px</span>
       </th>
       <th scope="col">
         xxl<br>
-        <span class="font-weight-normal">&ge;1400px</span>
+        <span class="fw-normal">&ge;1400px</span>
       </th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th class="text-nowrap" scope="row">Container <code class="font-weight-normal">max-width</code></th>
+      <th class="text-nowrap" scope="row">Container <code class="fw-normal">max-width</code></th>
       <td>None (auto)</td>
       <td>540px</td>
       <td>720px</td>
@@ -299,9 +299,9 @@ Don't want your columns to simply stack in some grid tiers? Use a combination of
 
 ### Row columns
 
-Use the responsive `.row-cols-*` classes to quickly set the number of columns that best render your content and layout. Whereas normal `.col-*` classes apply to the individual columns (e.g., `.col-md-4`), the row columns classes are set on the parent `.row` as a shortcut. With `.row-cols-auto` you can give the columns their natural width.
+Use the responsive `.row-cols-*` classes to quickly set the number of columns that best render your content and layout. Whereas normal `.col-*` classes apply to the individual columns (e.g., `.col-md-4`), the row columns classes are set on the parent `.row` as a default for contained columns. With `.row-cols-auto` you can give the columns their natural width.
 
-Use these row columns classes to quickly create basic grid layouts or to control your card layouts.
+Use these row columns classes to quickly create basic grid layouts or to control your card layouts and override when needed at the column level.
 
 {{< example class="bd-example-row" >}}
 <div class="container">
@@ -369,9 +369,28 @@ Use these row columns classes to quickly create basic grid layouts or to control
 </div>
 {{< /example >}}
 
+{{< example class="bd-example-row" >}}
+<div class="container">
+  <div class="row row-cols-2 row-cols-lg-3">
+    <div class="col">Column</div>
+    <div class="col">Column</div>
+    <div class="col">Column</div>
+    <div class="col">Column</div>
+    <div class="col">Column</div>
+    <div class="col">Column</div>
+    <div class="col-4 col-lg-2">Column</div>
+    <div class="col-4 col-lg-2">Column</div>
+    <div class="col-4 col-lg-2">Column</div>
+    <div class="col-4 col-lg-2">Column</div>
+    <div class="col-4 col-lg-2">Column</div>
+    <div class="col-4 col-lg-2">Column</div>
+  </div>
+</div>
+{{< /example >}}
+
 You can also use the accompanying Sass mixin, `row-cols()`:
 
-{{< highlight scss >}}
+```scss
 .element {
   // Three columns to start
   @include row-cols(3);
@@ -381,7 +400,7 @@ You can also use the accompanying Sass mixin, `row-cols()`:
     @include row-cols(5);
   }
 }
-{{< /highlight >}}
+```
 
 ## Nesting
 
@@ -415,10 +434,10 @@ When using Bootstrap's source Sass files, you have the option of using Sass vari
 
 Variables and maps determine the number of columns, the gutter width, and the media query point at which to begin floating columns. We use these to generate the predefined grid classes documented above, as well as for the custom mixins listed below.
 
-{{< highlight scss >}}
+```scss
 $grid-columns:      12;
 $grid-gutter-width: 1.5rem;
-{{< /highlight >}}
+```
 
 {{< scss-docs name="grid-breakpoints" file="scss/_variables.scss" >}}
 
@@ -428,23 +447,26 @@ $grid-gutter-width: 1.5rem;
 
 Mixins are used in conjunction with the grid variables to generate semantic CSS for individual grid columns.
 
-{{< highlight scss >}}
+```scss
 // Creates a wrapper for a series of columns
 @include make-row();
 
 // Make the element grid-ready (applying everything but the width)
 @include make-col-ready();
+
+// Without optional size values, the mixin will create equal columns (similar to using .col)
+@include make-col();
 @include make-col($size, $columns: $grid-columns);
 
-// Get fancy by offsetting, or changing the sort order
+// Offset with margins
 @include make-col-offset($size, $columns: $grid-columns);
-{{< /highlight >}}
+```
 
 ### Example usage
 
 You can modify the variables to your own custom values, or just use the mixins with their default values. Here's an example of using the default settings to create a two-column layout with a gap between.
 
-{{< highlight scss >}}
+```scss
 .example-container {
   @include make-container();
   // Make sure to define this width after the mixin to override
@@ -477,7 +499,7 @@ You can modify the variables to your own custom values, or just use the mixins w
     @include make-col(4);
   }
 }
-{{< /highlight >}}
+```
 
 {{< example >}}
 <div class="example-container">
@@ -496,16 +518,16 @@ Using our built-in grid Sass variables and maps, it's possible to completely cus
 
 The number of grid columns can be modified via Sass variables. `$grid-columns` is used to generate the widths (in percent) of each individual column while `$grid-gutter-width` sets the width for the column gutters.
 
-{{< highlight scss >}}
+```scss
 $grid-columns: 12 !default;
 $grid-gutter-width: 1.5rem !default;
-{{< /highlight >}}
+```
 
 ### Grid tiers
 
 Moving beyond the columns themselves, you may also customize the number of grid tiers. If you wanted just four grid tiers, you'd update the `$grid-breakpoints` and `$container-max-widths` to something like this:
 
-{{< highlight scss >}}
+```scss
 $grid-breakpoints: (
   xs: 0,
   sm: 480px,
@@ -518,6 +540,6 @@ $container-max-widths: (
   md: 720px,
   lg: 960px
 );
-{{< /highlight >}}
+```
 
 When making any changes to the Sass variables or maps, you'll need to save your changes and recompile. Doing so will output a brand new set of predefined grid classes for column widths, offsets, and ordering. Responsive visibility utilities will also be updated to use the custom breakpoints. Make sure to set grid values in `px` (not `rem`, `em`, or `%`).

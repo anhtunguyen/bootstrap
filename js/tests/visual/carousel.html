@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../../../dist/css/bootstrap.min.css">
+    <link href="../../../dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Carousel</title>
     <style>
       .carousel-item {
@@ -17,12 +17,12 @@
 
       <p>The transition duration should be around 2s. Also, the carousel shouldn't slide when its window/tab is hidden. Check the console log.</p>
 
-      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-          <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-          <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-        </ol>
+      <div id="carousel-example-generic" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img src="https://i.imgur.com/iEZgY7Y.jpg" alt="First slide">
@@ -34,22 +34,22 @@
             <img src="https://i.imgur.com/Nm7xoti.jpg" alt="Third slide">
           </div>
         </div>
-        <a class="carousel-control-prev" href="#carousel-example-generic" role="button" data-slide="prev">
+        <button class="carousel-control-prev" data-bs-target="#carousel-example-generic" type="button" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carousel-example-generic" role="button" data-slide="next">
+        </button>
+        <button class="carousel-control-next" data-bs-target="#carousel-example-generic" type="button" data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
-        </a>
+        </button>
       </div>
     </div>
 
-    <script src="../../dist/dom/polyfill.js"></script>
     <script src="../../dist/dom/event-handler.js"></script>
     <script src="../../dist/dom/selector-engine.js"></script>
     <script src="../../dist/dom/manipulator.js"></script>
     <script src="../../dist/dom/data.js"></script>
+    <script src="../../dist/base-component.js"></script>
     <script src="../../dist/carousel.js"></script>
     <script>
       var t0

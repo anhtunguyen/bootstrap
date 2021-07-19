@@ -6,13 +6,13 @@ group: customize
 toc: true
 ---
 
-Utilize our source Sass files to take advantage of variables, maps, mixins, and more. In our build we've increased the Sass rounding precision to 6 (by default it's 5) to prevent issues with browser rounding.
+Utilize our source Sass files to take advantage of variables, maps, mixins, and more.
 
 ## File structure
 
 Whenever possible, avoid modifying Bootstrap's core files. For Sass, that means creating your own stylesheet that imports Bootstrap so you can modify and extend it. Assuming you're using a package manager like npm, you'll have a file structure that looks like this:
 
-{{< highlight text >}}
+```text
 your-project/
 ├── scss
 │   └── custom.scss
@@ -20,47 +20,57 @@ your-project/
     └── bootstrap
         ├── js
         └── scss
-{{< /highlight >}}
+```
 
 If you've downloaded our source files and aren't using a package manager, you'll want to manually setup something similar to that structure, keeping Bootstrap's source files separate from your own.
 
-{{< highlight text >}}
+```text
 your-project/
 ├── scss
 │   └── custom.scss
 └── bootstrap/
     ├── js
     └── scss
-{{< /highlight >}}
+```
 
 ## Importing
 
 In your `custom.scss`, you'll import Bootstrap's source Sass files. You have two options: include all of Bootstrap, or pick the parts you need. We encourage the latter, though be aware there are some requirements and dependencies across our components. You also will need to include some JavaScript for our plugins.
 
-{{< highlight scss >}}
+```scss
 // Custom.scss
 // Option A: Include all of Bootstrap
 
-@import "../node_modules/bootstrap/scss/bootstrap";
-{{< /highlight >}}
+// Include any default variable overrides here (though functions won't be available)
 
-{{< highlight scss >}}
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// Then add additional custom code here
+```
+
+```scss
 // Custom.scss
 // Option B: Include parts of Bootstrap
 
-// Required
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
 @import "../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+
+// 3. Include remainder of required Bootstrap stylesheets
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins";
 
-// Optional
+// 4. Include any optional Bootstrap components as you like
 @import "../node_modules/bootstrap/scss/root";
 @import "../node_modules/bootstrap/scss/reboot";
 @import "../node_modules/bootstrap/scss/type";
 @import "../node_modules/bootstrap/scss/images";
 @import "../node_modules/bootstrap/scss/containers";
 @import "../node_modules/bootstrap/scss/grid";
-{{< /highlight >}}
+
+// 5. Add additional custom code here
+```
 
 With that setup in place, you can begin to modify any of the Sass variables and maps in your `custom.scss`. You can also start to add parts of Bootstrap under the `// Optional` section as needed. We suggest using the full import stack from our `bootstrap.scss` file as your starting point.
 
@@ -70,20 +80,34 @@ Every Sass variable in Bootstrap includes the `!default` flag allowing you to ov
 
 You will find the complete list of Bootstrap's variables in `scss/_variables.scss`. Some variables are set to `null`, these variables don't output the property unless they are overridden in your configuration.
 
-Variable overrides within the same Sass file can come before or after the default variables. However, when overriding across Sass files, your overrides must come before you import Bootstrap's Sass files.
+Variable overrides must come after our functions are imported, but before the rest of the imports.
 
 Here's an example that changes the `background-color` and `color` for the `<body>` when importing and compiling Bootstrap via npm:
 
-{{< highlight scss >}}
-// Your variable overrides
+```scss
+// Required
+@import "../node_modules/bootstrap/scss/functions";
+
+// Default variable overrides
 $body-bg: #000;
 $body-color: #111;
 
-// Bootstrap and its default variables
-@import "../node_modules/bootstrap/scss/bootstrap";
-{{< /highlight >}}
+// Required
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+// Optional Bootstrap components here
+@import "../node_modules/bootstrap/scss/root";
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/type";
+// etc
+```
 
 Repeat as necessary for any variable in Bootstrap, including the global options below.
+
+{{< callout info >}}
+{{< partial "callout-info-npm-starter.md" >}}
+{{< /callout >}}
 
 ## Maps and loops
 
@@ -95,25 +119,25 @@ Some of our Sass maps are merged into empty ones by default. This is done to all
 
 All variables in the `$theme-colors` map are defined as standalone variables. To modify an existing color in our `$theme-colors` map, add the following to your custom Sass file:
 
-{{< highlight scss >}}
+```scss
 $primary: #0074d9;
 $danger: #ff4136;
-{{< /highlight >}}
+```
 
-Later on, theses variables are set in Bootstrap's `$theme-colors` map:
+Later on, these variables are set in Bootstrap's `$theme-colors` map:
 
-{{< highlight scss >}}
+```scss
 $theme-colors: (
   "primary": $primary,
   "danger": $danger
 );
-{{< /highlight >}}
+```
 
 ### Add to map
 
 Add new colors to `$theme-colors`, or any other map, by creating a new Sass map with your custom values and merging it with the original map. In this case, we'll create a new `$custom-colors` map and merge it with `$theme-colors`.
 
-{{< highlight scss >}}
+```scss
 // Create your own map
 $custom-colors: (
   "custom-color": #900
@@ -121,13 +145,13 @@ $custom-colors: (
 
 // Merge the maps
 $theme-colors: map-merge($theme-colors, $custom-colors);
-{{< /highlight >}}
+```
 
 ### Remove from map
 
 To remove colors from `$theme-colors`, or any other map, use `map-remove`. Be aware you must insert it between our requirements and options:
 
-{{< highlight scss >}}
+```scss
 // Required
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
@@ -139,8 +163,8 @@ $theme-colors: map-remove($theme-colors, "info", "light", "dark");
 @import "../node_modules/bootstrap/scss/root";
 @import "../node_modules/bootstrap/scss/reboot";
 @import "../node_modules/bootstrap/scss/type";
-...
-{{< /highlight >}}
+// etc
+```
 
 ## Required keys
 
@@ -152,26 +176,30 @@ For example, we use the `primary`, `success`, and `danger` keys from `$theme-col
 
 ### Colors
 
-In Bootstrap 5, we've dropped the `color()`, `theme-color()` and `gray()` functions because the values are also available as standalone variables. So instead of using `theme-color("primary")`, you can now just use the `$primary` variable.
+Next to the [Sass maps]({{< docsref "/customize/color#color-sass-maps" >}}) we have, theme colors can also be used as standalone variables, like `$primary`.
 
-{{< highlight scss >}}
+```scss
 .custom-element {
   color: $gray-100;
   background-color: $dark;
 }
-{{< /highlight >}}
+```
 
-We also have a function for getting a particular _level_ of color. Negative level values will lighten the color, while higher levels will darken.
+You can lighten or darken colors with Bootstrap's `tint-color()` and `shade-color()` functions. These functions will mix colors with black or white, unlike Sass' native `lighten()` and `darken()` functions which will change the lightness by a fixed amount, which often doesn't lead to the desired effect.
 
-{{< scss-docs name="color-level" file="scss/_functions.scss" >}}
+{{< scss-docs name="color-functions" file="scss/_functions.scss" >}}
 
-In practice, you'd call the function and pass in two parameters: the name of the color from `$theme-colors` (e.g., primary or danger) and a numeric level.
+In practice, you'd call the function and pass in the color and weight parameters.
 
-{{< highlight scss >}}
+```scss
 .custom-element {
-  color: color-level($primary, -10);
+  color: tint-color($primary, 10%);
 }
-{{< /highlight >}}
+
+.custom-element-2 {
+  color: shade-color($danger, 30%);
+}
+```
 
 ### Color contrast
 
@@ -181,33 +209,33 @@ An additional function we include in Bootstrap is the color contrast function, `
 
 For example, to generate color swatches from our `$theme-colors` map:
 
-{{< highlight scss >}}
+```scss
 @each $color, $value in $theme-colors {
   .swatch-#{$color} {
     color: color-contrast($value);
   }
 }
-{{< /highlight >}}
+```
 
 It can also be used for one-off contrast needs:
 
-{{< highlight scss >}}
+```scss
 .custom-element {
   color: color-contrast(#000); // returns `color: #fff`
 }
-{{< /highlight >}}
+```
 
 You can also specify a base color with our color map functions:
 
-{{< highlight scss >}}
+```scss
 .custom-element {
   color: color-contrast($dark); // returns `color: #fff`
 }
-{{< /highlight >}}
+```
 
 ### Escape SVG
 
-We use the `escape-svg` function to escape the `<`, `>` and `#` characters for SVG background images.
+We use the `escape-svg` function to escape the `<`, `>` and `#` characters for SVG background images. When using the `escape-svg` function, data URIs must be quoted.
 
 ### Add and Subtract functions
 
@@ -215,7 +243,7 @@ We use the `add` and `subtract` functions to wrap the CSS `calc` function. The p
 
 Example where the calc is valid:
 
-{{< highlight scss >}}
+```scss
 $border-radius: .25rem;
 $border-width: 1px;
 
@@ -228,11 +256,11 @@ $border-width: 1px;
   // Output the same calc(.25rem - 1px) as above
   border-radius: subtract($border-radius, $border-width);
 }
-{{< /highlight >}}
+```
 
 Example where the calc is invalid:
 
-{{< highlight scss >}}
+```scss
 $border-radius: .25rem;
 $border-width: 0;
 
@@ -245,4 +273,26 @@ $border-width: 0;
   // Output .25rem
   border-radius: subtract($border-radius, $border-width);
 }
-{{< /highlight >}}
+```
+
+## Mixins
+
+Our `scss/mixins/` directory has a ton of mixins that power parts of Bootstrap and can also be used across your own project.
+
+### Color schemes
+
+A shorthand mixin for the `prefers-color-scheme` media query is available with support for `light`, `dark`, and custom color schemes.
+
+{{< scss-docs name="mixin-color-scheme" file="scss/mixins/_color-scheme.scss" >}}
+
+```scss
+.custom-element {
+  @include color-scheme(dark) {
+    // Insert dark mode styles here
+  }
+
+  @include color-scheme(custom-named-scheme) {
+    // Insert custom color scheme styles here
+  }
+}
+```

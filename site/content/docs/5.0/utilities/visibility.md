@@ -13,12 +13,12 @@ Elements with the `.invisible` class will be hidden *both* visually and for assi
 
 Apply `.visible` or `.invisible` as needed.
 
-{{< highlight html >}}
+```html
 <div class="visible">...</div>
 <div class="invisible">...</div>
-{{< /highlight >}}
+```
 
-{{< highlight scss >}}
+```scss
 // Class
 .visible {
   visibility: visible !important;
@@ -26,4 +26,12 @@ Apply `.visible` or `.invisible` as needed.
 .invisible {
   visibility: hidden !important;
 }
-{{< /highlight >}}
+```
+
+## Sass
+
+### Utilities API
+
+Visibility utilities are declared in our utilities API in `scss/_utilities.scss`. [Learn how to use the utilities API.]({{< docsref "/utilities/api#using-the-api" >}})
+
+{{< scss-docs name="utils-visibility" file="scss/_utilities.scss" >}}

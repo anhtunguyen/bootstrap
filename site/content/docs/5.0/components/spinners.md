@@ -12,6 +12,10 @@ Bootstrap "spinners" can be used to show the loading state in your projects. The
 
 For accessibility purposes, each loader here includes `role="status"` and a nested `<span class="visually-hidden">Loading...</span>`.
 
+{{< callout info >}}
+{{< partial "callout-info-prefersreducedmotion.md" >}}
+{{< /callout >}}
+
 ## Border spinner
 
 Use the border spinners for a lightweight loading indicator.
@@ -93,7 +97,7 @@ Use [flexbox utilities][flex], [float utilities][float], or [text alignment][tex
 {{< example >}}
 <div class="d-flex align-items-center">
   <strong>Loading...</strong>
-  <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+  <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
 </div>
 {{< /example >}}
 
@@ -101,7 +105,7 @@ Use [flexbox utilities][flex], [float utilities][float], or [text alignment][tex
 
 {{< example >}}
 <div class="clearfix">
-  <div class="spinner-border float-right" role="status">
+  <div class="spinner-border float-end" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
@@ -167,6 +171,20 @@ Use spinners within buttons to indicate an action is currently processing or tak
 </button>
 {{< /example >}}
 
+## Sass
+
+### Variables
+
+{{< scss-docs name="spinner-variables" file="scss/_variables.scss" >}}
+
+### Keyframes
+
+Used for creating the CSS animations for our spinners. Included in `scss/_spinners.scss`.
+
+{{< scss-docs name="spinner-border-keyframes" file="scss/_spinners.scss" >}}
+
+{{< scss-docs name="spinner-grow-keyframes" file="scss/_spinners.scss" >}}
+
 
 [color]:   {{< docsref "/utilities/colors" >}}
 [display]: {{< docsref "/utilities/display" >}}
@@ -174,4 +192,4 @@ Use spinners within buttons to indicate an action is currently processing or tak
 [float]:   {{< docsref "/utilities/float" >}}
 [margin]:  {{< docsref "/utilities/spacing" >}}
 [sizing]:  {{< docsref "/utilities/sizing" >}}
-[text]:    {{< docsref "/content/typography" >}}
+[text]:    {{< docsref "/utilities/text" >}}

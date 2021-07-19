@@ -25,16 +25,25 @@ Set heights using classes like `.form-control-lg` and `.form-control-sm`.
 
 {{< example >}}
 <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" aria-label=".form-control-lg example">
-<input class="form-control" type="text" placeholder="Default input" aria-label="deafult input example">
+<input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
 <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example">
+{{< /example >}}
+
+## Disabled
+
+Add the `disabled` boolean attribute on an input to give it a grayed out appearance and remove pointer events.
+
+{{< example >}}
+<input class="form-control" type="text" placeholder="Disabled input" aria-label="Disabled input example" disabled>
+<input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>
 {{< /example >}}
 
 ## Readonly
 
-Add the `readonly` boolean attribute on an input to prevent modification of the input's value. Read-only inputs appear lighter (just like disabled inputs), but retain the standard cursor.
+Add the `readonly` boolean attribute on an input to prevent modification of the input's value.
 
 {{< example >}}
-<input class="form-control" type="text" placeholder="Readonly input here..." aria-label="readonly input example" readonly>
+<input class="form-control" type="text" value="Readonly input here..." aria-label="readonly input example" readonly>
 {{< /example >}}
 
 ## Readonly plain text
@@ -72,6 +81,31 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
 </form>
 {{< /example >}}
 
+## File input
+
+{{< example >}}
+<div class="mb-3">
+  <label for="formFile" class="form-label">Default file input example</label>
+  <input class="form-control" type="file" id="formFile">
+</div>
+<div class="mb-3">
+  <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+  <input class="form-control" type="file" id="formFileMultiple" multiple>
+</div>
+<div class="mb-3">
+  <label for="formFileDisabled" class="form-label">Disabled file input example</label>
+  <input class="form-control" type="file" id="formFileDisabled" disabled>
+</div>
+<div class="mb-3">
+  <label for="formFileSm" class="form-label">Small file input example</label>
+  <input class="form-control form-control-sm" id="formFileSm" type="file">
+</div>
+<div>
+  <label for="formFileLg" class="form-label">Large file input example</label>
+  <input class="form-control form-control-lg" id="formFileLg" type="file">
+</div>
+{{< /example >}}
+
 ## Color
 
 {{< example >}}
@@ -83,7 +117,7 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
 
 Datalists allow you to create a group of `<option>`s that can be accessed (and autocompleted) from within an `<input>`. These are similar to `<select>` elements, but come with more menu styling limitations and differences. While most browsers and operating systems include some support for `<datalist>` elements, their styling is inconsistent at best.
 
-Learn more about [support for datalist elements](https://caniuse.com/#feat=datalist).
+Learn more about [support for datalist elements](https://caniuse.com/datalist).
 
 {{< example >}}
 <label for="exampleDataList" class="form-label">Datalist example</label>
@@ -96,3 +130,21 @@ Learn more about [support for datalist elements](https://caniuse.com/#feat=datal
   <option value="Chicago">
 </datalist>
 {{< /example >}}
+
+## Sass
+
+### Variables
+
+`$input-*` are shared across most of our form controls (and not buttons).
+
+{{< scss-docs name="form-input-variables" file="scss/_variables.scss" >}}
+
+`$form-label-*` and `$form-text-*` are for our `<label>`s and `.form-text` component.
+
+{{< scss-docs name="form-label-variables" file="scss/_variables.scss" >}}
+
+{{< scss-docs name="form-text-variables" file="scss/_variables.scss" >}}
+
+`$form-file-*` are for file input.
+
+{{< scss-docs name="form-file-variables" file="scss/_variables.scss" >}}
